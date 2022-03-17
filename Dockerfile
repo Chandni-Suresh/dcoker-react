@@ -1,4 +1,4 @@
-FROM node:16-alpine as builder
+FROM node:13-alpine 
 WORKDIR '/app'
 COPY package.json .
 RUN npm config set registry http://registry.npmjs.org/
@@ -6,7 +6,7 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-FROM nginx:alpine
+FROM nginx:1.18-alpine
 EXPOSE 80
-COPY --from=builder /app/build /usr/share/nginx/html
+COPY --from=0 /app/build /usr/share/nginx/html
 
